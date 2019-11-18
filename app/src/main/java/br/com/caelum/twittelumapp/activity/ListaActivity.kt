@@ -1,10 +1,11 @@
 package br.com.caelum.twittelumapp.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import br.com.caelum.twittelumapp.R
-import com.google.android.material.snackbar.Snackbar
+import br.com.caelum.twittelumapp.TweetActivity
 import kotlinx.android.synthetic.main.activity_lista.*
 
 class ListaActivity : AppCompatActivity() {
@@ -26,7 +27,9 @@ class ListaActivity : AppCompatActivity() {
         lista_tweet.adapter = adapter
 
         fab_add.setOnClickListener {
-            Snackbar.make(it, "FAB	clicado", Snackbar.LENGTH_SHORT).show()
+            val intencao = Intent(this, TweetActivity::class.java)
+            
+            startActivity(intencao)
         }
     }
 }

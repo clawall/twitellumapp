@@ -1,12 +1,12 @@
 package br.com.caelum.twittelumapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 
 class TweetActivity : AppCompatActivity() {
 
@@ -16,7 +16,11 @@ class TweetActivity : AppCompatActivity() {
 
         val botao = findViewById<Button>(R.id.criar_tweet)
 
-        botao.setOnClickListener(View.OnClickListener { publicaTweet() })
+        botao.setOnClickListener(View.OnClickListener {
+            publicaTweet()
+
+            finish()
+        })
     }
 
     private fun publicaTweet() {
