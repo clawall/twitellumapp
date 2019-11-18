@@ -16,17 +16,22 @@ class ListaActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_lista)
 
-        val tweetDao = TwittelumDatabase.getInstance(this).tweetDao()
-        val tweets: List<Tweet> = tweetDao.lista()
-
-        val adapter = ArrayAdapter<Tweet>(this, android.R.layout.simple_list_item_1, tweets)
-
-        lista_tweet.adapter = adapter
-
         fab_add.setOnClickListener {
             val intencao = Intent(this, TweetActivity::class.java)
 
             startActivity(intencao)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val tweetDao = TwittelumDatabase.getInstance(this).tweetDao()
+
+        val tweets: List<Tweet> = tweetDao.lista()
+
+        lista_tweet.adapter = ArrayAdapter<Tweet>(
+            this, android.R.layout.simple_list_item_1, tweets
+        )
     }
 }
