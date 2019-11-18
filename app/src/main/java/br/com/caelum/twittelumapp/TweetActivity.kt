@@ -2,8 +2,8 @@ package br.com.caelum.twittelumapp
 
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.Button
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -14,13 +14,27 @@ class TweetActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tweet)
 
-        val botao = findViewById<Button>(R.id.criar_tweet)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
 
-        botao.setOnClickListener(View.OnClickListener {
-            publicaTweet()
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.tweet_menu, menu)
 
-            finish()
-        })
+        return true    // deve mostrar ou não?
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.tweet_menu_cadastrar -> {
+                publicaTweet()
+
+                finish()
+            }
+
+            android.R.id.home -> finish()
+        }
+
+        return false
     }
 
     private fun publicaTweet() {
