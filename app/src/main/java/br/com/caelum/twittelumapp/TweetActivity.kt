@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import br.com.caelum.twittelumapp.modelo.Tweet
 
 class TweetActivity : AppCompatActivity() {
 
@@ -44,6 +45,8 @@ class TweetActivity : AppCompatActivity() {
 
         val mensagemDoTweet: String = campoDeMensagemDoTweet.text.toString()
 
-        Toast.makeText(this, mensagemDoTweet, Toast.LENGTH_LONG).show()
+        val tweet = Tweet(mensagemDoTweet)
+
+        Toast.makeText(this, "$tweet", Toast.LENGTH_LONG).show()
     }
 }
