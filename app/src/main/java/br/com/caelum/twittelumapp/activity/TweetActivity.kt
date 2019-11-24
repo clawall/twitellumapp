@@ -1,5 +1,6 @@
 package br.com.caelum.twittelumapp.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -37,14 +38,6 @@ class TweetActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        if (localFoto != null) {
-            carregaFoto()
-        }
-    }
-
     private fun carregaFoto() {
         val bitmap = BitmapFactory.decodeFile(localFoto)
 
@@ -78,6 +71,15 @@ class TweetActivity : AppCompatActivity() {
         return false
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 123) {
+            if (resultCode == Activity.RESULT_OK) {
+                carregaFoto()
+            }
+        }
+    }
+
     private fun tiraFoto() {
         val vaiPraCamera = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
@@ -85,7 +87,7 @@ class TweetActivity : AppCompatActivity() {
 
         vaiPraCamera.putExtra(MediaStore.EXTRA_OUTPUT, caminhoFoto)
 
-        startActivity(vaiPraCamera)
+        startActivityForResult(vaiPraCamera, 123)
     }
 
     fun defineLocalDaFoto(): Uri? {
