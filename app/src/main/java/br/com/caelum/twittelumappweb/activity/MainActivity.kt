@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import br.com.caelum.twittelumappweb.R
+import br.com.caelum.twittelumappweb.fragment.BuscadorDeTweetsFragment
 import br.com.caelum.twittelumappweb.fragment.ListaTweetsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -24,6 +25,10 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_tweets -> {
                     exibe(ListaTweetsFragment())
 
+                    true
+                }
+                R.id.menu_busca -> {
+                    exibe(BuscadorDeTweetsFragment())
                     true
                 }
                 else -> {
