@@ -1,16 +1,22 @@
-package br.com.caelum.twittelumapp
+package br.com.caelum.twittelumapp.activity
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import br.com.caelum.twittelumapp.bancodedados.TwittelumDatabase
+import androidx.lifecycle.ViewModelProviders
+import br.com.caelum.twittelumapp.R
 import br.com.caelum.twittelumapp.modelo.Tweet
+import br.com.caelum.twittelumapp.viewmodel.TweetViewModel
+import br.com.caelum.twittelumapp.viewmodel.ViewModelFactory
 
 class TweetActivity : AppCompatActivity() {
+
+    private val viewModel: TweetViewModel by lazy {
+        ViewModelProviders.of(this, ViewModelFactory).get(TweetViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,19 +46,15 @@ class TweetActivity : AppCompatActivity() {
     }
 
     private fun publicaTweet() {
-        Log.i("tweet", "botão clicado")
-
         val campoDeMensagemDoTweet = findViewById<EditText>(R.id.tweet_mensagem)
 
         val mensagemDoTweet: String = campoDeMensagemDoTweet.text.toString()
 
         val tweet = Tweet(mensagemDoTweet)
 
-        val tweetDao = TwittelumDatabase.getInstance(this).tweetDao()
+        viewModel.salva(tweet)
 
-        tweetDao.salva(tweet)
-
-        Toast.makeText(this, "$tweet foi salvo com sucesso :D", Toast.LENGTH_LONG)
+        Toast.makeText(this, "$tweet	foi	salvo	com	sucesso	:D", Toast.LENGTH_LONG)
             .show()
     }
 }
