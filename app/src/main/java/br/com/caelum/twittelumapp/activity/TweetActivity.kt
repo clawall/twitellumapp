@@ -1,6 +1,8 @@
 package br.com.caelum.twittelumapp.activity
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
@@ -40,9 +42,18 @@ class TweetActivity : AppCompatActivity() {
             }
 
             android.R.id.home -> finish()
+
+            R.id.tweet_menu_foto -> {
+                tiraFoto()
+            }
         }
 
         return false
+    }
+
+    private fun tiraFoto() {
+        val vaiPraCamera = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivity(vaiPraCamera)
     }
 
     private fun publicaTweet() {
