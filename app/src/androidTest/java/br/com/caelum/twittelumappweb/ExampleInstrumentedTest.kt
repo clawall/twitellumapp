@@ -1,7 +1,7 @@
-package br.com.caelum.twittelumapp
+package br.com.caelum.twittelumappweb
 
-import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import android.support.test.InstrumentationRegistry
+import android.support.test.runner.AndroidJUnit4
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -18,7 +18,7 @@ class ExampleInstrumentedTest {
     @Test
     fun useAppContext() {
         // Context of the app under test.
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("br.com.caelum.twittelumapp", appContext.packageName)
+        val appContext = InstrumentationRegistry.getTargetContext()
+        assertEquals("br.com.caelum.twittelumappweb", appContext.packageName)
     }
 }

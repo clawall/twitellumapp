@@ -1,4 +1,4 @@
-package br.com.caelum.twittelumapp
+package br.com.caelum.twittelumappweb
 
 import org.junit.Test
 
