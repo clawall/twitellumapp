@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProviders
 import br.com.caelum.twittelumapp.R
+import br.com.caelum.twittelumapp.extensions.decodificaParaBase64
 import br.com.caelum.twittelumapp.modelo.Tweet
 import br.com.caelum.twittelumapp.viewmodel.TweetViewModel
 import br.com.caelum.twittelumapp.viewmodel.ViewModelFactory
@@ -43,7 +44,10 @@ class TweetActivity : AppCompatActivity() {
 
         val bm = Bitmap.createScaledBitmap(bitmap, 300, 300, true)
 
+        val fotoNaBase64 = bm.decodificaParaBase64()
+
         tweet_foto.setImageBitmap(bm)
+        tweet_foto.tag = fotoNaBase64
         tweet_foto.scaleType = ImageView.ScaleType.FIT_XY
     }
 
@@ -100,15 +104,21 @@ class TweetActivity : AppCompatActivity() {
     }
 
     private fun publicaTweet() {
+        val tweet = criaTweet()
+
+        viewModel.salva(tweet)
+
+        Toast.makeText(this, "$tweet foi salvo com sucesso :D", Toast.LENGTH_LONG)
+            .show()
+    }
+
+    fun criaTweet(): Tweet {
         val campoDeMensagemDoTweet = findViewById<EditText>(R.id.tweet_mensagem)
 
         val mensagemDoTweet: String = campoDeMensagemDoTweet.text.toString()
 
-        val tweet = Tweet(mensagemDoTweet)
+        val foto: String? = tweet_foto.tag as String?
 
-        viewModel.salva(tweet)
-
-        Toast.makeText(this, "$tweet	foi	salvo	com	sucesso	:D", Toast.LENGTH_LONG)
-            .show()
+        return Tweet(mensagemDoTweet, foto)
     }
 }
