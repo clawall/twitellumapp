@@ -39,4 +39,5 @@ dependencies {
     kapt 'androidx.room:room-compiler:2.2.1' // leitor de anotações
     // ViewModel and LiveData
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
 }

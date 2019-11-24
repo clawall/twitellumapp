@@ -1,20 +1,30 @@
 package br.com.caelum.twittelumapp.activity
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProviders
 import br.com.caelum.twittelumapp.R
 import br.com.caelum.twittelumapp.modelo.Tweet
 import br.com.caelum.twittelumapp.viewmodel.TweetViewModel
 import br.com.caelum.twittelumapp.viewmodel.ViewModelFactory
+import kotlinx.android.synthetic.main.activity_tweet.*
+import java.io.File
 
 class TweetActivity : AppCompatActivity() {
+
+    private var localFoto: String? = null
 
     private val viewModel: TweetViewModel by lazy {
         ViewModelProviders.of(this, ViewModelFactory).get(TweetViewModel::class.java)
@@ -25,6 +35,23 @@ class TweetActivity : AppCompatActivity() {
         setContentView(R.layout.activity_tweet)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (localFoto != null) {
+            carregaFoto()
+        }
+    }
+
+    private fun carregaFoto() {
+        val bitmap = BitmapFactory.decodeFile(localFoto)
+
+        val bm = Bitmap.createScaledBitmap(bitmap, 300, 300, true)
+
+        tweet_foto.setImageBitmap(bm)
+        tweet_foto.scaleType = ImageView.ScaleType.FIT_XY
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -53,7 +80,21 @@ class TweetActivity : AppCompatActivity() {
 
     private fun tiraFoto() {
         val vaiPraCamera = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+        val caminhoFoto = defineLocalDaFoto()
+
+        vaiPraCamera.putExtra(MediaStore.EXTRA_OUTPUT, caminhoFoto)
+
         startActivity(vaiPraCamera)
+    }
+
+    fun defineLocalDaFoto(): Uri? {
+        localFoto =
+            "${getExternalFilesDir(Environment.DIRECTORY_PICTURES)}/${System.currentTimeMillis()}.jpg"
+
+        val arquivo = File(localFoto)
+
+        return FileProvider.getUriForFile(this, "br.com.twittelumapp.fileprovider", arquivo)
     }
 
     private fun publicaTweet() {
