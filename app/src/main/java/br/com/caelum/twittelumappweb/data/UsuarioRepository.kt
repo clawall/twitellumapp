@@ -13,9 +13,7 @@ class UsuarioRepository(private val client: UsuarioWebClient) {
 
     fun cadastra(usuario: Usuario) = client.registra(usuario, sucesso, falha)
 
-    fun entra(usuario: Usuario) {
-        Log.i("loginConta", "$usuario")
-    }
+    fun entra(usuario: Usuario) = client.fazLogin(usuario, sucesso, falha)
 
     private val sucesso = { usuario: Usuario ->
         estaLogado.value = true
