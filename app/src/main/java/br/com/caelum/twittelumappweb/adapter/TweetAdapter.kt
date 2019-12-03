@@ -12,12 +12,11 @@ import kotlinx.android.synthetic.main.tweet_item.view.*
 class TweetAdapter(private val tweets: List<Tweet>) : BaseAdapter() {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-
         val tweet = tweets[position]
 
         val inflater = LayoutInflater.from(parent?.context)
-        val view = inflater.inflate(R.layout.tweet_item, parent, false)
 
+        val view = inflater.inflate(R.layout.tweet_item, parent, false)
 
         view.item_conteudo.text = tweet.mensagem
 
@@ -26,9 +25,9 @@ class TweetAdapter(private val tweets: List<Tweet>) : BaseAdapter() {
             view.item_foto.setImageBitmap(Carregador.decodifica(it))
         }
 
-
+        view.item_dono.text = tweet.dono.nome
+        
         return view
-
     }
 
     override fun getItem(position: Int): Any {

@@ -25,8 +25,8 @@ class BuscadorDeTweetsFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState:
-        Bundle?
+            inflater: LayoutInflater, container: ViewGroup?, savedInstanceState:
+            Bundle?
     ): View? {
         return inflater.inflate(R.layout.lista_tweets_fragment, container, false)
     }
@@ -54,10 +54,11 @@ class BuscadorDeTweetsFragment : Fragment() {
     }
 
     private fun filtraTweetsPelo(texto: String?): List<Tweet> {
-        val tweets = viewModel.tweets()
+        viewModel.tweets().value?.let { tweets ->
+            val tweetsFiltrados = tweets.filter { tweet -> tweet.mensagem.contains(texto!!) }
 
-        val tweetsFiltrados = tweets.filter { tweet -> tweet.mensagem.contains(texto!!, true) }
-
-        return tweetsFiltrados
+            return tweetsFiltrados
+        }
+        return emptyList()
     }
 }
