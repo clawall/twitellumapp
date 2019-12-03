@@ -1,5 +1,6 @@
 package br.com.caelum.twittelumappweb.fragment
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,7 +31,11 @@ class ListaTweetsFragment : Fragment() {
                 view.lista_tweets.adapter = TweetAdapter(tweets)
             }
         })
-        
+
+        view.swipe.setOnRefreshListener { viewModel.carregaLista() }
+
+        view.swipe.setColorSchemeColors(Color.BLUE, Color.RED, Color.GREEN)
+
         return view
     }
 }
