@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import br.com.caelum.twittelumappweb.GPS
 import br.com.caelum.twittelumappweb.R
 import br.com.caelum.twittelumappweb.decodificaParaBase64
 import br.com.caelum.twittelumappweb.modelo.Tweet
@@ -39,11 +40,16 @@ class TweetActivity : AppCompatActivity() {
         ViewModelProviders.of(this, ViewModelFactory).get(UsuarioViewModel::class.java)
     }
 
+    private lateinit var gps: GPS
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tweet)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        gps = GPS(this)
+        gps.fazBusca()
 
         viewModel.falha().observe(this, Observer { excecao ->
             Toast.makeText(this, "erro:	${excecao?.message}", Toast.LENGTH_LONG).show()
@@ -103,6 +109,11 @@ class TweetActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        gps.cancela()
+    }
 
     private fun publicaTweet() {
         val tweet = criaTweet()
@@ -121,7 +132,9 @@ class TweetActivity : AppCompatActivity() {
 
         val dono = usuarioViewModel.usuarioDaSessao().value
 
-        return Tweet(mensagemDoTweet, foto, dono!!)
+        val (latitude, longitude) = gps.coordenadas()
+        
+        return Tweet(mensagemDoTweet, foto, dono!!, latitude, longitude)
     }
 
 
